@@ -160,28 +160,108 @@ def add_questions():
 
     return json.dumps(result)
 
+def get_last_answer_id():
+    col = db["answer_details"]
+    last_user_id      = col.find().sort([('answer_id',-1)]).limit(1)
+
+    try:
+        last_user_id = last_user_id[0]['answer_id']
+    except:
+        last_user_id = 0
+
+    # user_id = last_user_id + 1
+
+    return last_user_id
+
+@app.route('/add/answer', methods=['POST'])
+def add_answer():
+
+    col = db["answer_details"]
+
+    question_id = request.json("question_id")
+    answer_description = request.json("answer_description")
+    answered_by = request.json("answered_by")
+    upvotes  = 0
+    downvotes = 0
+
+    answer_id = get_last_answer_id()
+
+    new_answer_id = answer_id + 1
+
+    curr_date = datetime.now()
+
+    add_answer_dict = {
+        "answer_id" : new_answer_id,
+        "question_id" : question_id,
+        "answer_description" : answer_description,
+        "answered_by" : answered_by,
+        "upvotes" : upvotes,
+        "downvotes" : downvotes,
+
+        "created_at": curr_date,
+        "updated_at" : curr_date
+    } 
+
+    col.insert_one(add_answer_dict)
+
+    result = {
+        "result" : "successfully added"
+    }
+
+    return json.dumps(result)
 
 
+@app.route('/get/answers/<question_id>', methods=['GET'])
+def get_answers(question_id):
+    col = db["answer_details"]
 
+    col2 = db["question_details"]
+    answer_details = col.find({"question_id":int(question_id)})
 
+    answer_details_list = []
 
+    for answer_detail in answer_details:
 
+        answer_id = answer_detail["answer_id"]
+        answer_description = answer_detail["answer_description"]
+        answered_by = answer_detail["answered_by"]
+        question_id = answer_detail["question_id"]
 
+        question_details = col2.find_one({"question_id": int(question_id)})
 
+        questioned_by = question_details["questioned_by"]
+        question_title = question_details["question_title"]
+        question_description = question_details["question_description"]
 
+        upvotes = answer_detail["upvotes"]
+        downvotes = answer_detail["downvotes"]
 
+        created_at = answer_detail["created_at"]
+        updated_at = answer_detail["updated_at"]
 
+        answer_details_dict = {
+            "answer_id" : answer_id,
+            "answer_description" : answer_description,
+            "answered_by"   : answered_by,
 
+            "question_id" : question_id,
+            "question_title" : question_title,
+            "question_description" : question_description,
+            "upvotes"  : upvotes,
+            "downvotes" : downvotes,
 
+            "questioned_by"  : questioned_by,
+            "created_at"  : created_at,
+            "updated_at"  : updated_at
+        }
 
+        answer_details_list.append(answer_details_dict)
+    
+    result = {
+        "result" : answer_details_list
+    }
 
-
-
-
-
-
-
-
+    return json.dump(result)
 
 if __name__== "__main__":
     app.run(host="0.0.0.0", debug = True,port = 5003)
