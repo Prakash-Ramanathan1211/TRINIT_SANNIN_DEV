@@ -36,42 +36,7 @@ def get_last_user_id():
 
     return last_user_id
 
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    col = db["user_details"]
-    email      = request.json['email']
-    username   = request.json["username"]
-    password   = request.json['password']
-    address    = request.json['address']
-    mobile     = request.json["mobile"]
 
-    existing_user = col.find_one({"email": email})
-
-    if existing_user:
-        return "user already exist"
-    
-    user_id = get_last_user_id()
-
-    new_user_id = user_id + 1
-    
-    curr_date = datetime.now()
-    user_dict = {
-        "user_id" : new_user_id,
-        "username" : username,
-        "email" : email,
-        "password" : password,
-        "address" : address,
-        "mobile" : mobile, 
-        "created_at"   : curr_date,
-    }
-
-    col.insert_one(user_dict)
-
-    result = {
-        "result" : "Successfully signed up"
-
-    }
-    return json.dumps(result)
 
 
 @app.route('/get/questions', methods=['GET'])
@@ -323,24 +288,69 @@ def hash_password(password):
 
     return bcrypt.generate_password_hash(password)
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    col = db["user_details"]
+    email      = request.json['email']
+    username   = request.json["username"]
+    password   = request.json['password']
+    address    = request.json['address']
+    mobile     = request.json["mobile"]
+
+    existing_user = col.find_one({"email": email})
+
+    if existing_user:
+        return "user already exist"
+    
+    user_id = get_last_user_id()
+
+    new_user_id = user_id + 1
+    
+    curr_date = datetime.now()
+    user_dict = {
+        "user_id" : new_user_id,
+        "username" : username,
+        "email" : email,
+        "password" : password,
+        "address" : address,
+        "mobile" : mobile, 
+        "created_at"   : curr_date,
+    }
+
+    col.insert_one(user_dict)
+
+    result = {
+        "result" : "Successfully signed up"
+
+    }
+    return json.dumps(result)
+
 @app.route('/api/signup', methods=['POST'])
 def api_signup():
 
     col = db["user_details"]
 
-    user_id  = get_last_user_id()
+    
+  
+    user_id  = get_last_user_id() 
     new_user_id = user_id + 1
-    username = request.json("username")
-    password = request.json("password")
+    username = request.json["username"]
+    password = request.json["password"]
     hashed_password = hash_password(password)
-    usertype  = request.json("usertype")
-    location = request.json("location")
-    emailid  = request.json("emailid")
-    mobile   = request.json("mobile")
+    usertype  = request.json["usertype"]
+    location = request.json["address"]
+    emailid  = request.json["email"]
+    mobile   = request.json["mobile"]
+    print(new_user_id,username,password,usertype,location,emailid,mobile) 
+
+    existing_user = col.find_one({"emailid": emailid})
+ 
+    if existing_user:
+        return "user already exist"
 
 
     curr_date = datetime.now()
-
+ 
     add_user_dict = {
         "user_id" : new_user_id,
         "username" : username,
@@ -352,8 +362,9 @@ def api_signup():
         "created_at": curr_date,
         "updated_at" : curr_date
     } 
+    print("hello" , add_user_dict)
 
-    col.insert_one(add_user_dict)
+    col.insert_one(add_user_dict)  
 
     result = {
         "result" : "successfully added"

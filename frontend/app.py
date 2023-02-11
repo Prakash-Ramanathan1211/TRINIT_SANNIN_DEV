@@ -26,8 +26,50 @@ def startpy():
 
     return render_template("login.html") 
 
+# @app.route("/login", methods=["POST"])
+# def post_login():
+
+#     email = request.values.get('email')
+#     password = request.values.get('password')
+
+#     data = {
+#         "email" : email,
+#         "password"  : password 
+#     }
+
+#     result  = trinitclient.process_post('/login', data)
 
 
+@app.route("/signup", methods=["GET"])
+def signup():
+    return render_template("login.html") 
+
+@app.route("/signup", methods=["GET","POST"])
+def post_signup():
+
+    email = request.values.get('email')
+    username = email 
+    password = request.values.get('password')
+    usertype = request.values.get('usertype')
+    location = request.values.get('address')
+    mobile   = request.values.get('mobile')
+ 
+    data = {
+        "email" : email,
+        "username" : username,
+        "password" : password,
+        "usertype" : usertype,
+        "address"  : location,
+        "mobile"   : mobile
+    }
+
+    # print(data) 
+ 
+    trinitclient.process_post(f'/api/signup',data)
+
+
+    
+    return redirect(f'/')
 
 
 

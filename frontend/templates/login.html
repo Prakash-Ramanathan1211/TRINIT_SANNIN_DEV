@@ -5,12 +5,13 @@
     <meta charset="utf-8">
     <title>Wizard V1</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/bootstrap.min.css">
+    <link type="text/css" rel=stylesheet href="{{ url_for('static', filename='assets/bootstrap.min.css') }}">
+    <link type="text/css" rel=stylesheet href="{{ url_for('static', filename='assets/animate.min.css') }}">
+    <link type="text/css" rel=stylesheet href="{{ url_for('static', filename='assets/login.css') }}">
+
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="assets/animate.min.css">
-    <!-- <link rel="stylesheet" href="assets/css/fontawesome-all.css"> -->
-    <link rel="stylesheet" href="assets/login.css">
+ 
 
 </head>
 
@@ -45,7 +46,7 @@
                 </ul>
             </div>
         </div>
-        <form class="multisteps-form__form" action="#" id="wizard" method="POST">
+        <form class="multisteps-form__form" action="/signup" id="wizard" method="POST">
             <div class="form-area position-relative">
                 <!-- div 1 -->
                 <div class="multisteps-form__panel js-active" data-animation="slideHorz">
@@ -70,8 +71,8 @@
                                                         Farmer
                                                     </span>
                                                     <span class="service-check-option">
-                                                        <span><input type="radio" name="service_name"
-                                                                value="Corporate Services" checked></span>
+                                                        <span><input type="radio" name="usertype"
+                                                                value="Farmer" checked></span>
                                                     </span>
                                                 </label>
                                             </div>
@@ -85,8 +86,8 @@
                                                     </span>
                                                     <!-- <span>conditional</span> -->
                                                     <span class="service-check-option">
-                                                        <span><input id="condition1" type="radio" name="service_name"
-                                                                value="Freelancing Services"></span>
+                                                        <span><input id="condition1" type="radio" name="usertype"
+                                                                value="Enthusiast"></span>
                                                     </span>
                                                 </label>
                                             </div>
@@ -100,8 +101,8 @@
                                                         Agricultural Professional
                                                     </span>
                                                     <span class="service-check-option">
-                                                        <span><input type="radio" name="service_name"
-                                                                value="Development Services"></span>
+                                                        <span><input type="radio" name="usertype"
+                                                                value="Agricultural Professional"></span>
                                                     </span>
                                                 </label>
                                             </div>
@@ -158,7 +159,8 @@
                                             placeholder="Email Address *" required>
                                         <input type="password" name="password" class="form-control required"
                                             placeholder="Set Password *" required>
-                                        <input type="text" name="phone" placeholder="Phone">
+                                        <input type="text" name="mobile" placeholder="mobile">
+                                        <input type="text" name="address" placeholder="address">
                                     </div>
 
                                     <div class="gender-selection">
@@ -208,14 +210,15 @@
             </div>
         </form>
     </div>
-    <script src="assets/js/jquery-3.3.1.min.js"></script>
-    <script src="assets/js/jquery.validate.min.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.validate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/conditionize.flexible.jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/switch.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js">
     </script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/conditionize.flexible.jquery.min.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/switch.js"></script>
+  
     <script>
         $("#files").change(function () {
             filename = this.files[0].name
