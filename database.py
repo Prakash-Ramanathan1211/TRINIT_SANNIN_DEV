@@ -118,7 +118,32 @@ def create_user_details():
         print('Duplicate Error')
 
         return False
-    
+
+
+def cultivation_details():
+    col = db["cultivation_details"]
+
+
+
+    cultivation_entry_dict = {
+        "state_id"    : 9,
+        "state" : "Tamilnadu",
+        "crop"     : ["Rice","Jowar","Ragi","Urud","Moong"],
+        "plant"   : ["Guava", "Mango","Coconut","Banana"],
+ 
+        
+    }
+
+    try:
+        x = col.insert_one(cultivation_entry_dict)
+        print(x)
+        return True
+
+    except:
+        # print(e)
+        print('Duplicate Error')
+
+        return False
 
 
 def startpy():
@@ -127,7 +152,8 @@ def startpy():
     # create_product_details()
     # create_sales()
     # create_answer_details()
-    create_user_details()
+    # create_user_details()
+    cultivation_details()
 
 if __name__ == '__main__':
     startpy()
