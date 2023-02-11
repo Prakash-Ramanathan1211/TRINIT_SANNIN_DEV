@@ -145,6 +145,62 @@ def cultivation_details():
 
         return False
 
+def create_seed_details():
+
+    col = db["seed_details"]
+    current_datetime = datetime.now()
+
+    seed_entry_dict = {
+        "seed_id"    : 1,
+        "seedname"     : "cereals",
+        "price":    100,
+        "sellername"     : 1,
+        "seed_description"          : "Hybrid seeds",
+        "location"      : "Chennai",
+        "seed_img"    : "seed.img",
+
+        "created_at"     : current_datetime,
+        "updated_at"       : current_datetime
+        
+    }
+
+    try:
+        x = col.insert_one(seed_entry_dict)
+        print(x)
+        return True
+
+    except:
+        # print(e)
+        print('Duplicate Error')
+
+        return False
+
+def create_seed_transactions():
+
+    col = db["seed_transactions"]
+    current_datetime = datetime.now()
+
+    seed_entry_dict = {
+        "seed_transaction_id"    : 1,
+        "seed_id"     : 1,
+        "sold_price"  : 200,
+        "soldby"      : 1,
+        "boughtby"    :  2,
+        "created_at"     : current_datetime,
+        "updated_at"       : current_datetime
+        
+    }
+
+    try:
+        x = col.insert_one(seed_entry_dict)
+        print(x)
+        return True
+
+    except:
+        # print(e)
+        print('Duplicate Error')
+
+        return False
 
 def startpy():
 
@@ -153,7 +209,9 @@ def startpy():
     # create_sales()
     # create_answer_details()
     # create_user_details()
-    cultivation_details()
+    # cultivation_details()
+    # create_seed_details()
+    create_seed_transactions()
 
 if __name__ == '__main__':
     startpy()
