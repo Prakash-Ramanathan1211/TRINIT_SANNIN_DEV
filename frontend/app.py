@@ -24,7 +24,7 @@ trinitclient = TrinitClient()
 @app.route("/", methods=["GET"])
 def startpy():
 
-    return render_template("login.html") 
+    return render_template("login2.html") 
 
 # @app.route("/login", methods=["POST"])
 # def post_login():
@@ -72,9 +72,22 @@ def post_signup():
     return redirect(f'/')
 
 
+@app.route("/login", methods=["POST"])
+def post_login():
 
+    email = request.values.get('email')
+    password = request.values.get('password')
 
+    data = {
+        "email" : email,
+        "password"  : password 
+    }
+    result  = trinitclient.process_post('/api/login', data)
 
+    user_id = result["user_id"]
+
+    print("****************",user_id)
+    return redirect(f'/')
 
 
 
