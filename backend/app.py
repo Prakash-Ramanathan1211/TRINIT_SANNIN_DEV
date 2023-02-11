@@ -37,8 +37,6 @@ def get_last_user_id():
     return last_user_id
 
 
-
-
 @app.route('/get/questions', methods=['GET'])
 def get_questions():
     col = db["question_details"]
@@ -58,6 +56,7 @@ def get_questions():
         question_tag = question_detail["question_tag"]
         created_at = question_detail["created_at"]
         updated_at = question_detail["updated_at"]
+        formatted_date = datetime(created_at.year, created_at.month, created_at.day-1)
 
         question_details_dict = {
             "question_id" : question_id,
@@ -68,8 +67,8 @@ def get_questions():
             "view_count"  : view_count,
             "question_tag"  : question_tag,
             "questioned_by"  : questioned_by,
-            "created_at"  : created_at,
-            "updated_at"  : updated_at
+            "created_at"  : formatted_date,
+            "updated_at"  : formatted_date
         }
 
         question_details_list.append(question_details_dict)
@@ -77,8 +76,9 @@ def get_questions():
     result = {
         "result" : question_details_list
     }
+    print(result)
 
-    return json.dump(result)
+    return jsonify(result)
 
 
 def get_last_question_id():
@@ -98,6 +98,7 @@ def get_last_question_id():
 def add_questions():
     
     col = db["question_details"]
+    col2 = db["user_details"]
 
     questioned_by = request.json("questioned_by")
     question_title = request.json("question_title")
@@ -113,9 +114,11 @@ def add_questions():
 
     curr_date = datetime.now()
 
+    user_details = col2.find({'user_id':int(questioned_by)})
+
     add_question_dict = {
         "question_id" : new_question_id,
-        "questioned_by" : questioned_by,
+        "questioned_by" : user_details["username"],
         "question_title" : question_title,
         "question_description" : question_description,
         "question_tag"  : question_tag,

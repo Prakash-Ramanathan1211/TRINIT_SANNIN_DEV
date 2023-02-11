@@ -89,7 +89,31 @@ def post_login():
     print("****************",user_id)
     return redirect(f'/')
 
+'''
+[{'created_at': 'Fri, 10 Feb 2023 00:00:00 GMT', 'downvotes': 100, 
+'question_description': 'hehe', 'question_id': 1, 'question_tag': 'rice',
+ 'question_title': 'what is what', 'questioned_by': 1,
+  'updated_at': 'Fri, 10 Feb 2023 00:00:00 GMT', 
+  'upvotes': 200, 'view_count': 1000}]
 
+'''
+@app.route("/discussion/forum/<user_id>", methods=["GET"])
+def discussion_forum(user_id):
+
+    questions = trinitclient.process_get('/get/questions')
+
+    print(questions["result"])
+
+    return render_template("qna.html", questions = questions["result"]) 
+
+@app.route("/discussion/forum/question/<question_id>/<user_id>", methods=["GET"])
+def discussion_forum_single(question_id,user_id):
+
+    questions = trinitclient.process_get(f'/get/answers/{question_id}')
+
+    print(questions["result"])
+
+    return render_template("qna-single.html", questions = questions["result"])
 
 if __name__ == "__main__":
     app.run(debug = True,host="0.0.0.0",port = PORT)

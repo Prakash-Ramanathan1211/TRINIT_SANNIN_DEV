@@ -11,6 +11,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="generator" content="Ask Me Child 1.0">
     <title>Q&A</title>
+
+
+    <link type="text/css" id="v_bootstrap-css" rel=stylesheet media="all" href="{{ url_for('static', filename='/assets/bootstrap.min.css') }}">
+    <link type="text/css" id="v_font_awesome_old-css" rel=stylesheet media="all" href="{{ url_for('static', filename='/assets/font-awesome.min.css') }}">
+    <link type="text/css" id="v_base-css" rel=stylesheet media="all" href="{{ url_for('static', filename='/assets/v_base.min.css') }}">
+    <link type="text/css" id="v_main_css-css" rel=stylesheet media="all" href="{{ url_for('static', filename='/assets/v_main_css.min.css') }}">
+    <link type="text/css" id="v_responsive-css" rel=stylesheet media="all" href="{{ url_for('static', filename='/assets/v_responsive.min.css') }}">
+    <link type="text/css" id="skin-skins-css" rel=stylesheet media="all" href="{{ url_for('static', filename='/assets/skin-skins.min.css') }}">
+
+
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <meta name="robots" content="max-image-preview:large">
@@ -34,11 +44,9 @@
     <link rel="stylesheet" id="v_base-css" href="../static/assets/v_base.min.css" type="text/css" media="all">
     <link rel="stylesheet" id="v_lists-css" href="./Home With Slider – Ask me_files/v_lists.min.css" type="text/css"
         media="all">
-    <link rel="stylesheet" id="v_bootstrap-css" href="../static/assets/bootstrap.min.css" type="text/css" media="all">
     <link rel="stylesheet" id="v_prettyPhoto-css" href="./Home With Slider – Ask me_files/v_prettyPhoto.min.css"
         type="text/css" media="all">
-    <link rel="stylesheet" id="v_font_awesome_old-css" href="../static/assets/font-awesome.min.css" type="text/css"
-        media="all">
+ 
     <link rel="stylesheet" id="v_font_awesome-css" href="./Home With Slider – Ask me_files/font-awesome.min(1).css"
         type="text/css" media="all">
     <link rel="stylesheet" id="v_fontello-css" href="./Home With Slider – Ask me_files/v_fontello.min.css"
@@ -52,7 +60,6 @@
     <link rel="stylesheet" id="v_main_css-css" href="../static/assets/v_main_css.min.css" type="text/css" media="all">
     <link rel="stylesheet" id="v_responsive-css" href="../static/assets/v_responsive.min.css" type="text/css"
         media="all">
-    <link rel="stylesheet" id="skin-skins-css" href="../static/assets/skin-skins.min.css" type="text/css" media="all">
     <link rel="stylesheet" id="vpanel_custom-css" href="./Home With Slider – Ask me_files/vpanel_custom.min.css"
         type="text/css" media="all">
     <style id="vpanel_custom-inline-css" type="text/css">
@@ -66,7 +73,10 @@
         type="text/css" media="all">
     <link rel="stylesheet" id="v_child_theme-css" href="./Home With Slider – Ask me_files/v_child_theme.min.css"
         type="text/css" media="all">
-    <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js" id="jquery-core-js"></script>
+
+
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+
     <script type="text/javascript" src="./Home With Slider – Ask me_files/jquery-migrate.min.js" id="jquery-migrate-js">
     </script>
     <script type="text/javascript" src="./Home With Slider – Ask me_files/select2.min.js" id="select2-js-js"></script>
@@ -154,14 +164,15 @@
                         </ul>
                         <div class="tab-inner-warp">
                             <div class="tab-inner">
+                                {% for question in questions%}
                                 <article
                                     class="question question-type-poll question_author_yes post-2492 type-question status-publish hentry question-category-language question_tags-germany"
                                     id="post-2492" itemscope="" itemtype="https://schema.org/Question">
                                     <h2> <a itemprop="url"
                                             href="https://2code.info/demo/themes/ask-me/question/do-i-need-to-have-a-undergrad-percentage-of-70-to-do-my-masters-in-germany/"
                                             title="Do I need to have a undergrad percentage of 70% to do my masters in Germany?"
-                                            rel="bookmark"> <span itemprop="name">What crops benefit the most from
-                                                AgTech and particularly soil monitoring?
+                                            rel="bookmark"> <span itemprop="name">
+                                                {{question.question_title}}
                                             </span> </a>
                                     </h2>
 
@@ -176,9 +187,7 @@
                                     <div class="question-inner">
                                         <div class="clearfix"></div>
                                         <div class="question-desc">
-                                            <div itemprop="text">I am trying to understand the benefits of AgTech for
-                                                different crops, and particularly IoT-based solutions like soil sensors
-                                                (humidity, temperature, NPK). What are the crops that ...</div>
+                                            <div itemprop="text">{{question.question_description}}</div>
                                             <div class="explain-reported">
                                                 <h3>Please briefly explain why you feel this question should be
                                                     reported.</h3><textarea name="explain-reported"></textarea>
@@ -190,21 +199,23 @@
                                         </div>
                                         <div class="footer-question-meta">
                                             <div class="question-meta-first">
-                                                <span class="badge-span" style="background-color: #81d742">Tech</span>
-                                                <span class="badge-span" style="background-color: #81d742">Rice</span>
+                                                <span class="badge-span" style="background-color: #81d742">{{question.question_tag}}</span>
+                                                <!-- <span class="badge-span" style="background-color: #81d742">Rice</span> -->
                                                 <span class="question-date" itemprop="dateCreated"
                                                     datetime="November 19, 2022"><i class="fa fa-calendar"></i><a
-                                                        href="https://2code.info/demo/themes/ask-me/question/do-i-need-to-have-a-undergrad-percentage-of-70-to-do-my-masters-in-germany/">3
-                                                        months</a></span> <span class="question-comment"><a
+                                                        href="https://2code.info/demo/themes/ask-me/question/do-i-need-to-have-a-undergrad-percentage-of-70-to-do-my-masters-in-germany/">                                                       
+                                                         {{question.created_at}}
+                                                        </a></span> <span class="question-comment"><a
                                                         href="https://2code.info/demo/themes/ask-me/question/do-i-need-to-have-a-undergrad-percentage-of-70-to-do-my-masters-in-germany/#respond"><i
                                                             class="fa fa-comments"></i><span itemprop="answerCount"> 2
                                                         </span> Answers</a></span> <span class="question-view"><i
-                                                        class="icon-eye-open"></i>13349
+                                                        class="icon-eye-open"></i>{{question.view_count}}
                                                     views</span>
                                             </div>
                                         </div>
                                     </div>
                                 </article>
+                                {%endfor%}
                                 <article
                                     class="question question-type-poll question_author_yes post-2492 type-question status-publish hentry question-category-language question_tags-germany"
                                     id="post-2492" itemscope="" itemtype="https://schema.org/Question">
