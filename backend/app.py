@@ -376,14 +376,14 @@ def match_password(db_password, password):
 
     return bcrypt.check_password_hash(db_password, password)
 
-@app.route('/api/login' , methods = ["GET"])
+@app.route('/api/login' , methods = ["GET","POST"])
 def api_login():
 
     col = db["user_details"]
-    username      = request.json['username']
+    username      = request.json['email']
     password   = request.json['password']
 
-    user_creds = col.find_one({"username" : username})
+    user_creds = col.find_one({"emailid" : username})
 
     if (user_creds is None):
         return "user not found"
@@ -391,19 +391,25 @@ def api_login():
     if (not match_password(user_creds['password'], password)):
         return "invalid creds"
 
-    user_id = user_creds["user_id"]
-    email = user_creds["email"]
-    location = user_creds["location"]
+    if (match_password(user_creds['password'], password)):
 
-    result_dict = {
-        "user_id" : user_id,
-        "email" : email,
-        "location" : location,
-       
-    }
+        user_id = user_creds["user_id"]
+        email = user_creds["emailid"]
+        location = user_creds["location"]
 
-    return json.dumps(result_dict)
-    
+        result_dict = {
+            "user_id" : user_id,
+            "email" : email,
+            "location" : location,
+            "result"  : "success"
+        
+        }
+
+        return json.dumps(result_dict)
+
+    else:
+        return json.dumps("invalid")
+
 @app.route('/api/crop/plant/suggestion' , methods = ["POST"])
 def crop_suggestion():
     col = db["cultivation_details"]
