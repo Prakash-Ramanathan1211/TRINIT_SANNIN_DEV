@@ -58,10 +58,8 @@ def signup():
         "email" : email,
         "password" : password,
         "address" : address,
-        "mobile" : mobile,
-        
+        "mobile" : mobile, 
         "created_at"   : curr_date,
-        
     }
 
     col.insert_one(user_dict)
