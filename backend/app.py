@@ -1,4 +1,5 @@
 from math import prod
+import re
 from time import pthread_getcpuclockid
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import random
@@ -8,6 +9,10 @@ from pymongo import MongoClient
 # import json
 from bson import json_util
 from datetime import date, datetime
+
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt()
 
 cluster = MongoClient('mongodb+srv://prakash-1211:prakash@cluster0.enw9p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
 
@@ -84,6 +89,7 @@ def get_questions():
         downvotes = question_detail["downvotes"]
         view_count = question_detail["view_count"]
         questioned_by = question_detail["questioned_by"]
+        question_tag = question_detail["question_tag"]
         created_at = question_detail["created_at"]
         updated_at = question_detail["updated_at"]
 
@@ -94,6 +100,7 @@ def get_questions():
             "upvotes"  : upvotes,
             "downvotes" : downvotes,
             "view_count"  : view_count,
+            "question_tag"  : question_tag,
             "questioned_by"  : questioned_by,
             "created_at"  : created_at,
             "updated_at"  : updated_at
@@ -129,6 +136,7 @@ def add_questions():
     questioned_by = request.json("questioned_by")
     question_title = request.json("question_title")
     question_description = request.json("question_description")
+    question_tag = request.json('question_tag')
     upvotes = 0
     downvotes = 0
     view_count = 0
@@ -144,6 +152,7 @@ def add_questions():
         "questioned_by" : questioned_by,
         "question_title" : question_title,
         "question_description" : question_description,
+        "question_tag"  : question_tag,
         "upvotes" : upvotes,
         "downvotes" : downvotes,
         "view_count" : view_count,
@@ -232,6 +241,7 @@ def get_answers(question_id):
         questioned_by = question_details["questioned_by"]
         question_title = question_details["question_title"]
         question_description = question_details["question_description"]
+        question_tag  = question_details["question_tag"]
 
         upvotes = answer_detail["upvotes"]
         downvotes = answer_detail["downvotes"]
@@ -247,6 +257,7 @@ def get_answers(question_id):
             "question_id" : question_id,
             "question_title" : question_title,
             "question_description" : question_description,
+            "question_tag" : question_tag,
             "upvotes"  : upvotes,
             "downvotes" : downvotes,
 
@@ -263,6 +274,125 @@ def get_answers(question_id):
 
     return json.dump(result)
 
+@app.route('/get/filtered/questions', methods=['GET','POST'])
+def get_filtered_questions():
+
+    col = db["question_details"]
+
+    question_tag = request.json()
+
+    question_details_list = []
+
+    question_details = col.find({'question_tag':question_tag})
+
+    for question_detail in question_details:
+        question_id = question_detail["question_id"]
+        question_title = question_detail["question_title"]
+        question_description = question_detail["question_description"]
+        upvotes = question_detail["upvotes"]
+        downvotes = question_detail["downvotes"]
+        view_count = question_detail["view_count"]
+        questioned_by = question_detail["questioned_by"]
+        question_tag = question_detail["question_tag"]
+        created_at = question_detail["created_at"]
+        updated_at = question_detail["updated_at"]
+
+        question_details_dict = {
+            "question_id" : question_id,
+            "question_title" : question_title,
+            "question_description" : question_description,
+            "upvotes"  : upvotes,
+            "downvotes" : downvotes,
+            "view_count"  : view_count,
+            "question_tag"  : question_tag,
+            "questioned_by"  : questioned_by,
+            "created_at"  : created_at,
+            "updated_at"  : updated_at
+        }
+
+        question_details_list.append(question_details_dict)
+    
+    result = {
+        "result" : question_details_list
+    }
+
+    return json.dump(result)
+
+def hash_password(password):
+
+    return bcrypt.generate_password_hash(password)
+
+@app.route('/api/signup', methods=['POST'])
+def api_signup():
+
+    col = db["user_details"]
+
+    user_id  = get_last_user_id()
+    new_user_id = user_id + 1
+    username = request.json("username")
+    password = request.json("password")
+    hashed_password = hash_password(password)
+    usertype  = request.json("usertype")
+    location = request.json("location")
+    emailid  = request.json("emailid")
+    mobile   = request.json("mobile")
+
+
+    curr_date = datetime.now()
+
+    add_user_dict = {
+        "user_id" : new_user_id,
+        "username" : username,
+        "password" : hashed_password,
+        "usertype" : usertype,
+        "location" : location,
+        "emailid" : emailid,
+        "mobile"  : mobile,
+        "created_at": curr_date,
+        "updated_at" : curr_date
+    } 
+
+    col.insert_one(add_user_dict)
+
+    result = {
+        "result" : "successfully added"
+    }
+
+    return json.dumps(result)
+
+def match_password(db_password, password):
+
+    return bcrypt.check_password_hash(db_password, password)
+
+@app.route('/api/login' , methods = ["GET"])
+def api_login():
+
+    col = db["user_details"]
+    username      = request.json['username']
+    password   = request.json['password']
+
+    user_creds = col.find_one({"username" : username})
+
+    if (user_creds is None):
+        return "user not found"
+
+    if (not match_password(user_creds['password'], password)):
+        return "invalid creds"
+
+    user_id = user_creds["user_id"]
+    email = user_creds["email"]
+    location = user_creds["location"]
+
+    result_dict = {
+        "user_id" : user_id,
+        "email" : email,
+        "location" : location,
+       
+    }
+
+    return json.dumps(result_dict)
+    
+    
 if __name__== "__main__":
     app.run(host="0.0.0.0", debug = True,port = 5003)
 
