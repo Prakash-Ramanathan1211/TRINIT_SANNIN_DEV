@@ -147,6 +147,13 @@ def add_answer(question_id, user_id):
 
     return redirect(f"/discussion/forum/question/{question_id}/{user_id}")
 
+@app.route("/scheme/recommendation", methods=["GET"])
+def scheme_recommendation():
+
+    
+
+    return render_template("scheme.html")
+
 
 if __name__ == "__main__":
     app.run(debug = True,host="0.0.0.0",port = PORT)
