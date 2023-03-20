@@ -164,29 +164,27 @@
                     <div class="main-sidebar-container col-md-9">
                         <div id="question-2110" itemprop="mainEntity" itemscope=""
                             itemtype="https://schema.org/Question">
+                            
+                            
                             <article
                                 class="question single-question question-type-normal sticky post-2110 type-question status-publish hentry question-category-analytics question_tags-analytics question_tags-programs"
                                 id="post-2110">
                                 <h2> <i class="icon-pushpin tooltip-n question-sticky" original-title="Sticky"></i>
-                                    <span itemprop="name">How can I grow Sunflower in my home?</span></h2> <a
+                                    <span itemprop="name">{{questions[0].question_title}}</span></h2> <a
                                     class="question-report report_q" href="#">Report</a>
                                 <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
                                 <div class="question-inner">
                                     <div class="clearfix"></div>
                                     <div class="question-desc">
                                         <div class="explain-reported">
-                                            <h3>Please briefly explain why you feel this question should be reported.
-                                            </h3><textarea name="explain-reported"></textarea>
+                                            <textarea name="explain-reported"></textarea>
                                             <div class="clearfix"></div>
                                             <div class="loader_3"></div>
                                             <div class="color button small report">Report</div>
                                             <div class="color button small dark_button cancel">Cancel</div>
                                         </div><!-- End reported -->
                                         <div class="content-text" itemprop="text">
-                                            <p>I will be studying full-time for a 1-year MS in Business Analytics. What
-                                                advise would you give to a person in this situation so that he can make
-                                                the most out of his time out from work and get the maximum benefit from
-                                                such a program?</p>
+                                            <p>{{questions[0].question_description}}</p>
                                         </div>
                                         <div class="clearfix"></div>
                                         <div class="loader_2"></div>
@@ -196,24 +194,13 @@
                                     <div class="footer-question-meta">
                                         <div class="question-meta-first">
                                             <div class="question-details"> <span class="question-answered"><i
-                                                        class="icon-ok"></i>in progress</span> <span
-                                                    class="question-favorite"><i class="icon-star"></i>37</span></div>
-                                            <span class="question-category"><i class="fa fa-folder"></i><a
-                                                    href="https://2code.info/demo/themes/ask-me/question-category/analytics/"
-                                                    rel="tag">Analytics</a></span> <span class="question-author-meta">
+                                                        class="icon-ok"></i>in progress</span> </div>
+                                            <span class="question-author-meta">
                                                 <a href="https://2code.info/demo/themes/ask-me/author/ask-me/"><i
-                                                        class="icon-user"></i>Ahmed Hassan</a> </span> <span
-                                                class="question-date"><i class="fa fa-calendar"></i><a
-                                                    href="https://2code.info/demo/themes/ask-me/question/how-do-i-make-the-most-out-of-a-ms-in-business-analytics/"
-                                                    itemprop="url">7 months</a></span> <span class="ask-hide"
-                                                itemprop="dateCreated"
-                                                datetime="2022-07-16T16:02:41+00:00">2022-07-16T16:02:41+00:00</span>
-                                            <span class="ask-hide" itemprop="datePublished"
-                                                datetime="2022-07-16T16:02:41+00:00">2022-07-16T16:02:41+00:00</span>
-                                            <span class="question-comment"><a
-                                                    href="https://2code.info/demo/themes/ask-me/question/how-do-i-make-the-most-out-of-a-ms-in-business-analytics/#comments"><i
-                                                        class="fa fa-comments"></i><span itemprop="answerCount">2</span>
-                                                    Answers</a></span> <span class="question-view"><i
+                                                        class="icon-user"></i>{{questions[0].questioned_by}}</a> </span> 
+                                            <span class="question-comment"><i
+                                                        class="fa fa-comments"></i><span itemprop="answerCount">{{length}}</span>
+                                                    Answer</span> <span class="question-view"><i
                                                     class="icon-eye-open"></i>32418 views</span> <span
                                                 class="badge-span" style="background-color: #81d742">Explainer</span>
                                         </div>
@@ -226,11 +213,12 @@
                                                         class="single-question-vote-down ask_vote_down question_vote_down vote_allow tooltip_s"
                                                         title="Dislike"><i class="icon-thumbs-down"></i></a></li>
                                             </ul> <span itemprop="upvoteCount"
-                                                class="single-question-vote-result question_vote_result">257</span>
+                                                class="single-question-vote-result question_vote_result">{{questions[0].question_upvotes}}</span>
                                         </div>
                                     </div>
                                 </div>
                             </article>
+                            
                             <div class="activate-post-stats page-visits-post" data-id="2110"></div>
                             <!-- <div id="related-posts">
                                 <h2>Related questions</h2>
@@ -250,10 +238,11 @@
                                 </ul>
                             </div> -->
                             <!-- End related-posts -->
+                            {%for question in questions%}
                             <div id="comments"></div>
                             <div id="commentlist" class="page-content ">
                                 <div class="boxedtitle page-title">
-                                    <h2>Answers ( <span class="color">2</span> )</h2>
+                                    <h2>Answers ( <span class="color">{{length}}</span> )</h2>
                                 </div>
                                 <ol class="commentlist clearfix">
                                     <li class="comment byuser comment-author-barry even thread-even depth-1 comment "
@@ -272,7 +261,7 @@
                                                     <div class="comment-author" itemprop="author" itemscope=""
                                                         itemtype="http://schema.org/Person"> <a itemprop="url"
                                                             href="https://2code.info/demo/themes/ask-me/author/barry/">
-                                                            <span itemprop="name">Mohamed Habaza</span> </a> <span
+                                                            <span itemprop="name">{{question.answered_by}}</span> </a> <span
                                                             class="badge-span"
                                                             style="background-color: #81d742">Explainer</span></div>
                                                     <div class="comment-vote">
@@ -288,20 +277,14 @@
                                                                         class="icon-thumbs-down"></i></a></li>
                                                         </ul>
                                                     </div> <span itemprop="upvoteCount"
-                                                        class="question-vote-result question_vote_result">109</span>
+                                                        class="question-vote-result question_vote_result">{{question.answer_upvotes}}</span>
                                                     <div class="comment-meta"> <span class="ask-hide"
                                                             itemprop="dateCreated"
-                                                            datetime="2022-07-16T16:03:21+00:00">2022-07-16T16:03:21+00:00</span>
+                                                            datetime="2022-07-16T16:03:21+00:00">{{question.created_at}}</span>
                                                         <a itemprop="url"
                                                             href="https://2code.info/demo/themes/ask-me/question/how-do-i-make-the-most-out-of-a-ms-in-business-analytics/#comment-937"
-                                                            class="date"><span><i class="fa fa-calendar"></i>July 16,
-                                                                2022 at 4:03 pm</span></a></div>
-                                                    <div class="comment-reply"> <a
-                                                            class="question_r_l comment_l report_c" href="#"><i
-                                                                class="icon-flag"></i>Report</a> <a rel="nofollow"
-                                                            class="comment-reply-link askme-reply-link" href="#respond"
-                                                            data-id="937" aria-label="Reply to Mohamed Habaza"><i
-                                                                class="icon-reply"></i>Reply</a></div>
+                                                            class="date"><span><i class="fa fa-calendar"></i>{{question.created_at}}</span></a></div>
+                                                    <div class="comment-reply"> </div>
                                                 </div>
                                                 <div class="text">
                                                     <div class="explain-reported">
@@ -313,31 +296,8 @@
                                                         <div class="color button small dark_button cancel">Cancel</div>
                                                     </div><!-- End reported -->
                                                     <div itemprop="text" style="font-size: 15px;">
-                                                        <p>The biggest piece of advice I could give is to take a course
-                                                            in microeconometrics/labour econometrics as a part of your
-                                                            course. If your course coordinator won’t let you, beg. If
-                                                            they still won’t let you, then go off-line for a week or two
-                                                            and properly digest Mostly Harmless Econometrics (or if your
-                                                            stats isn’t too good yet, Mastering Metrics). If you want to
-                                                            go and work in health analytics, then replace what I just
-                                                            wrote with the equivalent for research design.</p>
-                                                        <p>Why learn microemet? Basically, many of the big questions in
-                                                            business are of the form “what will happen if we do x”.
-                                                            Predictive models that aren’t informed by causal reasoning
-                                                            do *terribly* at this question–they answer the question
-                                                            “what do we see happening to y when we see x”. Inferring
-                                                            what will happen to y when you fiddle with x is a difficult
-                                                            task when all your data come from a world in which you did
-                                                            not fiddle with x. Too often we come across people with
-                                                            great technical chops who aren’t even aware they’re making
-                                                            mistakes when answering these questions. Don’t be one of
-                                                            these people.</p>
-                                                        <p>The second biggest piece of advice would be to not become too
-                                                            enamoured by the sexy end of data science (especially
-                                                            predictive algorithms), but *do spend the time learning this
-                                                            stuff in depth*. Often the simple stuff done well is far
-                                                            more useful to real-world decisionmaking.</p>
-                                                        <p>Third: read very widely.</p>
+                                                        <p>{{question.answer_description}}</p>
+                                                        
                                                     </div>
                                                     <div class="clearfix"></div>
                                                     <div class="clearfix"></div>
@@ -348,99 +308,24 @@
                                             </div>
                                         </div>
                                     </li><!-- #comment-## -->
-                                    <li class="comment byuser comment-author-john-2 odd alt thread-odd thread-alt depth-1 comment "
-                                        id="li-comment-938">
-                                        <div itemprop="suggestedAnswer" id="comment-938" class="comment-body clearfix"
-                                            rel="post-2110" itemscope="" itemtype="http://schema.org/Answer">
-                                            <div class="avatar-img"> <a original-title="El-Demouhi" class="tooltip-n"
-                                                    href="https://2code.info/demo/themes/ask-me/author/john-2/"> <img
-                                                        class="avatar avatar-65 photo" alt="El-Demouhi" width="65"
-                                                        height="65"
-                                                        src="https://cdn.2code.info/demo/themes/ask-me/wp-content/uploads/2017/07/team-9-65x65.jpg">
-                                                </a></div>
-                                            <div class="comment-text">
-                                                <div class="author clearfix">
-                                                    <div class="comment-author" itemprop="author" itemscope=""
-                                                        itemtype="http://schema.org/Person"> <a itemprop="url"
-                                                            href="https://2code.info/demo/themes/ask-me/author/john-2/">
-                                                            <span itemprop="name">El-Demouhi</span> </a> <span
-                                                            class="badge-span"
-                                                            style="background-color: #dd9933">Pundit</span></div>
-                                                    <div class="comment-vote">
-                                                        <ul class="single-question-vote">
-                                                            <li class="loader_3"></li>
-                                                            <li><a href="#"
-                                                                    class="single-question-vote-up ask_vote_up comment_vote_up vote_allow"
-                                                                    title="Like" id="comment_vote_up-938"><i
-                                                                        class="icon-thumbs-up"></i></a></li>
-                                                            <li><a href="#"
-                                                                    class="single-question-vote-down ask_vote_down comment_vote_down vote_allow"
-                                                                    id="comment_vote_down-938" title="Dislike"><i
-                                                                        class="icon-thumbs-down"></i></a></li>
-                                                        </ul>
-                                                    </div> <span itemprop="upvoteCount"
-                                                        class="question-vote-result question_vote_result">66</span>
-                                                    <div class="comment-meta"> <span class="ask-hide"
-                                                            itemprop="dateCreated"
-                                                            datetime="2022-07-16T16:03:38+00:00">2022-07-16T16:03:38+00:00</span>
-                                                        <a itemprop="url"
-                                                            href="https://2code.info/demo/themes/ask-me/question/how-do-i-make-the-most-out-of-a-ms-in-business-analytics/#comment-938"
-                                                            class="date"><span><i class="fa fa-calendar"></i>July 16,
-                                                                2022 at 4:03 pm</span></a></div>
-                                                    <div class="comment-reply"> <a
-                                                            class="question_r_l comment_l report_c" href="#"><i
-                                                                class="icon-flag"></i>Report</a> <a rel="nofollow"
-                                                            class="comment-reply-link askme-reply-link" href="#respond"
-                                                            data-id="938" aria-label="Reply to El-Demouhi"><i
-                                                                class="icon-reply"></i>Reply</a></div>
-                                                </div>
-                                                <div class="text">
-                                                    <div class="explain-reported">
-                                                        <h3>Please briefly explain why you feel this answer should be
-                                                            reported.</h3><textarea name="explain-reported"></textarea>
-                                                        <div class="clearfix"></div>
-                                                        <div class="loader_3"></div>
-                                                        <div class="color button small report">Report</div>
-                                                        <div class="color button small dark_button cancel">Cancel</div>
-                                                    </div><!-- End reported -->
-                                                    <div itemprop="text">
-                                                        <p>In my opinion, you should be thinking about looking for work.
-                                                            Try to network and see if there are employers were looking
-                                                            for analytics. This is different from analysts. They could
-                                                            be market research companies, companies are looking for
-                                                            pricing decisions, and even productivity.</p>
-                                                        <p>Look to companies where the culture and business processes
-                                                            are not instinctual. Rather look for companies that require
-                                                            analysis.</p>
-                                                        <p>Unfortunately, one becomes more Bible as one becomes more
-                                                            familiar with the tools of analysis. This may be SAS,
-                                                            business objects, or any other reporting environment.</p>
-                                                        <p>In conclusion, a massive degree in analytics should result in
-                                                            a job sooner or later.</p>
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                    <div class="clearfix"></div>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                                <div class="loader_3"></div>
-                                                <div class="no_vote_more"></div>
-                                            </div>
-                                        </div>
-                                    </li><!-- #comment-## -->
+                                    
+                                    
                                 </ol><!-- End commentlist -->
                             </div><!-- End page-content -->
+                            {%endfor%}
                             <div class="pagination comments-pagination"></div><!-- End comments-pagination -->
                             <div id="respond" class="comment-respond page-content clearfix ">
                                 <div class="boxedtitle page-title">
                                     <h2>Leave an answer</h2>
                                 </div>
-                                <form action="#" method="post" id="commentform" enctype="multipart/form-data">
-                                    <textarea name="answer" id="answer" cols="30" rows="10"></textarea>
-                                </form>
+                                <form action="/add/answer/{{question_id}}/{{user_id}}" method="POST" id="commentform" enctype="multipart/form-data">
+                                    <textarea name="answer_description" id="answer" cols="30" rows="10"></textarea>
+                               
                                 <p class="form-submit"> <input name="submit" type="submit" id="submit"
                                         value="Post your answer" class="button small color"> <input type="hidden"
                                         name="comment_post_ID" value="2110" id="comment_post_ID"> <input type="hidden"
                                         name="comment_parent" id="comment_parent" value="0"></p>
+                                    </form>
                             </div>
                         </div>
                     </div><!-- End main -->

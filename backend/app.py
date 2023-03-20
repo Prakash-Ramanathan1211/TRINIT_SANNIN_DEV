@@ -156,9 +156,9 @@ def add_answer():
 
     col = db["answer_details"]
 
-    question_id = request.json("question_id")
-    answer_description = request.json("answer_description")
-    answered_by = request.json("answered_by")
+    question_id = request.json["question_id"]
+    answer_description = request.json["answer_description"]
+    answered_by = request.json["answered_by"]
     upvotes  = 0
     downvotes = 0
 
@@ -170,9 +170,9 @@ def add_answer():
 
     add_answer_dict = {
         "answer_id" : new_answer_id,
-        "question_id" : question_id,
+        "question_id" : int(question_id),
         "answer_description" : answer_description,
-        "answered_by" : answered_by,
+        "answered_by" : int(answered_by),
         "upvotes" : upvotes,
         "downvotes" : downvotes,
 
@@ -194,6 +194,8 @@ def get_answers(question_id):
     col = db["answer_details"]
 
     col2 = db["question_details"]
+
+    col3 = db["user_details"]
     answer_details = col.find({"question_id":int(question_id)})
 
     answer_details_list = []
@@ -211,26 +213,33 @@ def get_answers(question_id):
         question_title = question_details["question_title"]
         question_description = question_details["question_description"]
         question_tag  = question_details["question_tag"]
+        question_upvotes = question_details["upvotes"]
+        question_downvotes = question_details["downvotes"]
 
-        upvotes = answer_detail["upvotes"]
-        downvotes = answer_detail["downvotes"]
+        answer_upvotes = answer_detail["upvotes"]
+        answer_downvotes = answer_detail["downvotes"]
 
         created_at = answer_detail["created_at"]
         updated_at = answer_detail["updated_at"]
 
+        answered_by_col = col3.find_one({"user_id":int(answered_by)})
+        questioned_by_col = col3.find_one({"user_id":int(questioned_by)})
+
         answer_details_dict = {
             "answer_id" : answer_id,
             "answer_description" : answer_description,
-            "answered_by"   : answered_by,
+            "answered_by"   : answered_by_col["username"].split("@")[0],
 
             "question_id" : question_id,
             "question_title" : question_title,
             "question_description" : question_description,
             "question_tag" : question_tag,
-            "upvotes"  : upvotes,
-            "downvotes" : downvotes,
+            "answer_upvotes"  : answer_upvotes,
+            "answer_downvotes" : answer_downvotes,
+            "question_upvotes"  :question_upvotes,
+            "question_downvotes" : question_downvotes,
 
-            "questioned_by"  : questioned_by,
+            "questioned_by"  : questioned_by_col["username"].split("@")[0],
             "created_at"  : created_at,
             "updated_at"  : updated_at
         }
@@ -241,7 +250,7 @@ def get_answers(question_id):
         "result" : answer_details_list
     }
 
-    return json.dump(result)
+    return jsonify(result)
 
 @app.route('/get/filtered/questions', methods=['GET','POST'])
 def get_filtered_questions():
